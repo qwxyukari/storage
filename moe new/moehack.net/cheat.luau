@@ -43,8 +43,10 @@ local GetFileName = function(path)
     return path:match("[^/\\]+$") or ""
 end
 
-local Intro = moehack.load_module("globals/intro.luau").Create()
-Intro:FadeIn(0.5)
+local Intro = {
+    FadeIn  = function() end,
+    FadeOut = function() end,
+}
 
 --# Variables
 
