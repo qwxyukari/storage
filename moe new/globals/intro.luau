@@ -49,7 +49,6 @@ function Intro.GetRandomMessages()
 end
 
 function Intro.Create()
-    -- Интро полностью отключено
     return {
         FadeIn  = function() end,
         FadeOut = function() end,
