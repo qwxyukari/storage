@@ -54,7 +54,7 @@ local HttpService = GetService(Game, "HttpService")
 --# Variables
 
 local GameData = HttpService:JSONDecode(
-    Game:HttpGet("Game:HttpGet("https://raw.githubusercontent.com/qwxyukari/storage/refs/heads/main/moe%20new/moehack.net/data/supported_game.json")")
+    Game:HttpGet("https://raw.githubusercontent.com/qwxyukari/storage/refs/heads/main/moe%20new/moehack.net/data/supported_game.json")
 )[tostring(Game.PlaceId)] or {
     game_name = "Universal",
     run_on_actor = false,
@@ -85,7 +85,7 @@ if GameData["run_on_actor"] then
         local HttpService = GetService(Game, "HttpService")
 
         local GameData = HttpService:JSONDecode(
-            Game:HttpGet("Game:HttpGet("https://raw.githubusercontent.com/qwxyukari/storage/refs/heads/main/moe%20new/moehack.net/data/supported_game.json")")
+            Game:HttpGet("https://raw.githubusercontent.com/qwxyukari/storage/refs/heads/main/moe%20new/moehack.net/data/supported_game.json")
         )[tostring(Game.PlaceId)] or {
             game_name = "Universal",
             run_on_actor = false,
