@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>moehack.net</title>
+
+  <style>
+    @font-face {
+      font-family: "XP Tahoma";
+      src: url("https://mental1illness.vercel.app/fonts/windows-xp-tahoma.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: rgb(20, 20, 20);
+      color: #eee;
+      font: 18px "XP Tahoma", Tahoma, sans-serif;
+    }
+
+    body { padding: 4px; }
+
+    .window {
+      min-height: calc(100vh - 8px);
+      border: 1px solid #e05a86;
+      outline: 1px solid #5d2335;
+      background: #241114;
+    }
+
+    .titlebar {
+      height: 27px;
+      padding: 6px 8px 4px;
+      color: #f0d8df;
+      border-bottom: 1px solid #67273a;
+      background: linear-gradient(#2d151b, #170b0f);
+      font-size: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      margin: 6px 8px 0;
+      border: 1px solid #32131d;
+      background: #12090c;
+    }
+
+    .tab {
+      width: 100%;
+      padding: 7px;
+      text-align: center;
+      color: #fff;
+      background: #271118;
+      border-top: 2px solid #ec3986;
+      font-size: 16px;
+    }
+
+    .panel {
+      position: relative;
+      min-height: calc(100vh - 84px);
+      margin: 8px;
+      border: 1px solid #582432;
+      background: #261316;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #ec3986;
+    }
+
+    .art-card {
+      display: grid;
+      place-items: center;
+      min-height: calc(100vh - 84px);
+      padding: 24px;
+    }
+
+    .image-frame {
+      position: relative;
+      min-width: 180px;
+      min-height: 180px;
+      padding: 6px;
+      border: 1px solid #e05283;
+      background: #170b0f;
+      box-shadow: 0 0 0 1px #32131d, 0 0 24px rgba(236, 57, 134, 0.16);
+    }
+
+    .image-frame::before {
+      content: "loadin.,.";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #c88c9f;
+      font-size: 14px;
+      letter-spacing: 1px;
+      pointer-events: none;
+    }
+
+    .image-frame.loaded::before { display: none; }
+
+    img {
+      position: relative;
+      z-index: 1;
+      display: block;
+      max-width: 62vw;
+      max-height: 62vh;
+      width: auto;
+      height: auto;
+      min-width: 160px;
+      min-height: 160px;
+      object-fit: contain;
+      background: #170b0f;
+    }
+
+    @media (max-width: 600px) {
+      .art-card { padding: 12px; }
+      img {
+        max-width: 82vw;
+        max-height: 70vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="window" hidden>
+    <div class="titlebar">moehack.net</div>
+
+    <nav class="tabs" aria-label="Navigation">
+      <div class="tab">im nutting to this cheat i swear to god</div>
+    </nav>
+
+    <section class="panel">
+      <div class="art-card">
+        <div class="image-frame" id="imageFrame">
+          <img alt="bro speed plss i nee dthis">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const image = document.querySelector(".image-frame img");
+    const card = document.querySelector(".window");
+    const imageFrame = document.getElementById("imageFrame");
+
+    const fallback =
+      "https://safebooru.org//samples/4174/sample_b1f7a1b006438ae3859a72dc40f3dd804855fb02.jpg?7135047";
+
+    const providers = [
+      {
+        name: "Waifu.im",
+        endpoint: "https://api.waifu.im/images?IncludedTags=waifu&IsNsfw=false",
+        parse: data => data?.items?.[0]?.url
+      },
+      {
+        name: "Nekos.best",
+        endpoint: "https://nekos.best/api/v2/neko",
+        parse: data => data?.results?.[0]?.url
+      },
+      {
+        name: "Waifu.pics",
+        endpoint: "https://api.waifu.pics/sfw/waifu",
+        parse: data => data?.url
+      }
+    ];
+
+    function shuffled(items) {
+      return [...items].sort(() => Math.random() - 0.5);
+    }
+
+    async function fetchWithTimeout(url, timeout = 8000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeout);
+
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: { Accept: "application/json" },
+          signal: controller.signal
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function checkImage(url) {
+      return new Promise((resolve, reject) => {
+        const testImage = new Image();
+        testImage.onload = () => resolve(url);
+        testImage.onerror = () => reject(new Error("Image failed to load"));
+        testImage.src = url;
+      });
+    }
+
+    async function getRandomAnimeImage() {
+      for (const provider of shuffled(providers)) {
+        try {
+          const data = await fetchWithTimeout(provider.endpoint);
+          const imageUrl = provider.parse(data);
+
+          if (!imageUrl) throw new Error("No image URL returned");
+          await checkImage(imageUrl);
+          return imageUrl;
+        } catch (error) {
+          console.warn(`${provider.name} failed:`, error.message);
+        }
+      }
+
+      return fallback;
+    }
+
+    async function loadArt() {
+      const imageUrl = await getRandomAnimeImage();
+
+      image.onload = () => {
+        imageFrame.classList.add("loaded");
+        card.hidden = false;
+      };
+
+      image.onerror = () => {
+        if (image.src !== fallback) {
+          image.src = fallback;
+        } else {
+          card.hidden = false;
+        }
+      };
+
+      image.src = imageUrl;
+    }
+
+    loadArt();
+  </script>
+</body>
+</html>

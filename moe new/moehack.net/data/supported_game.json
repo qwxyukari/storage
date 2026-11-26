@@ -1,0 +1,62 @@
+{
+  "72920620366355": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": true,
+    "tab_to_remove": {},
+    "game_name": "Operation One"
+  },
+  "286090429": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": true,
+    "tab_to_remove": {},
+    "game_name": "Arsenal"
+  },
+  "138485390344924": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": false,
+    "tab_to_remove": {},
+    "game_name": "Killstreak"
+  },
+  "118419815459168": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": false,
+    "tab_to_remove": {},
+    "game_name": "Killstreak"
+  },
+  "105401128498345": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": false,
+    "tab_to_remove": {},
+    "game_name": "Killstreak"
+  },
+  "133256411240728": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": false,
+    "tab_to_remove": {},
+    "game_name": "Killstreak"
+  },
+  "123989305784308": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": false,
+    "tab_to_remove": {},
+    "game_name": "Killstreak"
+  },
+  "17625359962": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": false,
+    "tab_to_remove": {},
+    "game_name": "Rivals"
+  },
+  "117398147513099": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": false,
+    "tab_to_remove": {},
+    "game_name": "Rivals"
+  },
+  "136801880565837": {
+    "use_custom_silent_aim": true,
+    "run_on_actor": false,
+    "tab_to_remove": {},
+    "game_name": "Flick"
+  }
+}
